@@ -36,5 +36,6 @@ RESULT: PASS | FAIL | BLOCKED
 ```
 - Tested commit (merged HEAD SHA) and `origin/<base>` SHA
 - Command | result (✅ / ❌ / not run) | duration | summary (failing test names, error lines)
+- Every number you report (tests passed, tests per file) is copied from the command output, never estimated.
 - On FAIL: per failure, test name, error message, the file you think is involved
 - Whether a migration, new environment variable or dependency install is needed for release

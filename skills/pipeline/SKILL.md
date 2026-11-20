@@ -11,7 +11,15 @@ argument-hint: "[#12 | ABC-12]"
 2. Read `trackers.md` (next to this file). Every tracker action below is one of its operations: `listQueue`,
    `readTicket`, `move`, `comment`, `block`. Run its preflight once.
 3. Agents are called with the `Agent` tool as `subagent_type: "shipgate:<agent>"`.
-4. `gh` commands that fail with a `GITHUB_TOKEN` error: retry as `env -u GITHUB_TOKEN gh ...`.
+4. A `gh` command that fails with an authentication error (`401`, `Bad credentials`, or a message naming
+   `GITHUB_TOKEN`) while `GITHUB_TOKEN` is set: retry it as `env -u GITHUB_TOKEN gh ...` and keep that prefix for
+   the rest of the run.
+5. **The pipeline log is the ticket's comment thread.** Every plan, agent assignment (agent name, type, model),
+   test commit SHA, review decision and test result is written there with `comment`; a resumed session rebuilds
+   state from it.
+6. **Every agent report must contain its verdict line** (`DECISION:` / `RESULT:` / red evidence / commit SHAs as
+   its agent file specifies). A report without it is not a result: send the agent back once to produce it; never
+   infer a verdict.
 
 ## Ground rules
 - **You are the manager; you write no product code and no tests.** Agents write code. You read tickets, plan, assign
@@ -49,7 +57,8 @@ argument-hint: "[#12 | ABC-12]"
   Never skip it for risky tickets.
 
 ## 4. In Progress
-1. Worktree and branch: `git fetch origin`, `git worktree add <worktreeDir>/<key> -b <branch> origin/<baseBranch>`,
+1. Worktree and branch: `git fetch origin`, `git worktree add --no-track <worktreeDir>/<key> -b <branch> origin/<baseBranch>` (no upstream, so a bare
+   `git push` can never target the base branch),
    then `commands.install` in the worktree. `move(todo → inProgress)`; `comment` "Work started: branch `<name>`, dev
    agent `<name>` (<model>)".
 2. **test-author** (unless skipped): give the ticket, criteria, plan, worktree path. Its report must contain the test
@@ -78,9 +87,11 @@ argument-hint: "[#12 | ABC-12]"
 ## 6. Testing (single queue)
 1. If another ticket is in Testing, wait. `move(review → testing)`.
 2. In the dev worktree merge the latest base (`git -C <worktree> merge origin/<baseBranch>`). On conflict give the
-   resolution to the dev agent, then review again (5.2). Push the updated branch.
+   resolution to the dev agent, then review again (5.2). If the merge was clean but brought in changes to files this
+   branch also changed, run code review again (5.2) before testing. Push the updated branch.
 3. **test-runner**: ticket, branch, touched areas, test list. The test bench is the main checkout; do nothing else
-   there meanwhile.
+   there meanwhile. The runner tests remote refs (`origin/<branch>` merged with `origin/<baseBranch>`), so the main
+   checkout's local branches need not be current; it returns the checkout to the branch it started on.
 4. Result:
    - **PASS** → step 7.
    - **FAIL** → `move(testing → inProgress)`, send failures to the ticket and the same dev agent; when done, continue

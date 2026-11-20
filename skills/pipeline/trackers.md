@@ -21,9 +21,9 @@ Use `--repo <tracker.github.repo>` when it is set.
 
 | Operation | Command |
 |---|---|
-| `listQueue(stage)` | `gh issue list --state open --label "<label>" --search "-label:blocked sort:created-asc" --json number,title,labels` (todo: also sort by a `priority:*` label if present, `priority:high` first) |
+| `listQueue(stage)` | `gh issue list --state open --label "<label>" --json number,title,labels,createdAt`, then drop issues labelled `blocked` and sort oldest first (todo: `priority:high` first). Do **not** use `--search`: GitHub search is eventually consistent and can return labels from before the last `move`. |
 | `readTicket(n)` | `gh issue view <n> --json number,title,body,labels,comments` |
-| `move(n, from, to)` | `gh issue edit <n> --remove-label "<from label>" --add-label "<to label>"` (one call, so the issue is never in two stages) |
+| `move(n, from, to)` | `gh issue edit <n> --remove-label "<from label>" --add-label "<to label>"` (one call, so the issue is never in two stages), then confirm with `gh issue view <n> --json labels` |
 | `comment(n, text)` | write the text to a temp file, then `gh issue comment <n> --body-file <file>` |
 | `block(n, reason)` | `gh issue edit <n> --add-label blocked` then `comment(n, reason)` |
 

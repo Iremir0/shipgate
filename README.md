@@ -64,7 +64,8 @@ claude          # trust the folder, accept the plugin install
 ```
 
 Watch the issues move across `status:*` labels, with plans, review decisions and release notes as comments and one
-merged PR per issue.
+merged PR per issue. The first real run (3 issues, 3 merged PRs, and the 8 plugin problems it surfaced) is
+written up in **[docs/example-run.md](docs/example-run.md)**.
 
 ## Use it in your repo
 
