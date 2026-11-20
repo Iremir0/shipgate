@@ -1,0 +1,14 @@
+{
+  "name": "claude-code-pipeline",
+  "owner": { "name": "Emir Tüfekci", "url": "https://github.com/Iremir0" },
+  "metadata": { "description": "Gated multi-agent delivery pipeline for Claude Code" },
+  "plugins": [
+    {
+      "name": "claude-code-pipeline",
+      "source": "./",
+      "description": "Ticket-to-release pipeline: test-first, locked tests, cross-model review, single testing queue. Jira or GitHub Issues.",
+      "version": "0.1.0",
+      "category": "development"
+    }
+  ]
+}

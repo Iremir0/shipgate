@@ -1,0 +1,6 @@
+node_modules/
+.superpowers/
+.claude/.cache/
+.claude/settings.local.json
+*.log
+.DS_Store
