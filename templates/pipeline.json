@@ -1,0 +1,36 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Iremir0/claude-code-pipeline/main/schema/pipeline.schema.json",
+  "tracker": {
+    "type": "github",
+    "github": { "labelPrefix": "status:" },
+    "jira": {
+      "site": "your-site.atlassian.net",
+      "project": "ABC",
+      "statuses": { "todo": "To Do", "inProgress": "In Progress", "review": "Code Review", "testing": "Testing", "ready": "Waiting for Release", "done": "Done" }
+    }
+  },
+  "keyPattern": "#{n}",
+  "commands": {
+    "install": "npm ci",
+    "quick": ["npm run typecheck", "npm test"],
+    "build": ["npm run build"],
+    "suites": [
+      { "name": "integration", "run": "npm run test:integration", "when": ["src/api/**", "src/db/**"], "needs": "services" },
+      { "name": "e2e", "run": "npm run test:e2e", "when": ["web/**"], "needs": "services" }
+    ],
+    "services": { "start": "npm run dev", "health": ["http://127.0.0.1:3000/health"] }
+  },
+  "verifyOnStop": [
+    { "paths": "^src/.*\\.(ts|tsx|js|mjs)$", "run": ["npm run typecheck", "npm test"] }
+  ],
+  "risk": {
+    "paths": ["src/payments/**", "src/auth/**", "migrations/**"],
+    "keywords": ["payment", "price", "auth", "permission", "migration", "webhook"]
+  },
+  "models": { "devStandard": "sonnet", "devCritical": "opus", "reviewerFor": { "sonnet": "opus", "opus": "sonnet" } },
+  "parallel": 2,
+  "loopLimit": 3,
+  "autoMerge": true,
+  "baseBranch": "main",
+  "worktreeDir": ".claude/worktrees"
+}

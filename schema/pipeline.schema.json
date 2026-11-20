@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Iremir0/claude-code-pipeline/main/schema/pipeline.schema.json",
+  "title": "claude-code-pipeline configuration (.claude/pipeline.json)",
+  "type": "object",
+  "required": ["tracker", "commands"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "tracker": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": { "enum": ["github", "jira"], "description": "Where tickets live." },
+        "github": {
+          "type": "object",
+          "properties": {
+            "repo": { "type": "string", "description": "owner/name. Defaults to the current repo." },
+            "labelPrefix": { "type": "string", "default": "status:" }
+          }
+        },
+        "jira": {
+          "type": "object",
+          "required": ["site", "project"],
+          "properties": {
+            "site": { "type": "string", "description": "your-site.atlassian.net" },
+            "project": { "type": "string", "description": "Project key, e.g. ABC" },
+            "statuses": {
+              "type": "object",
+              "description": "Your board column names for each pipeline stage.",
+              "properties": {
+                "todo": { "type": "string", "default": "To Do" },
+                "inProgress": { "type": "string", "default": "In Progress" },
+                "review": { "type": "string", "default": "Code Review" },
+                "testing": { "type": "string", "default": "Testing" },
+                "ready": { "type": "string", "default": "Waiting for Release" },
+                "done": { "type": "string", "default": "Done" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "keyPattern": { "type": "string", "default": "#{n}", "description": "How a ticket is written in commits and branches: \"#{n}\" for GitHub, \"ABC-{n}\" for Jira." },
+    "commands": {
+      "type": "object",
+      "properties": {
+        "install": { "type": "string", "description": "Clean dependency install, e.g. npm ci." },
+        "quick": { "type": "array", "items": { "type": "string" }, "description": "Fast checks every dev agent must run green (typecheck, unit tests)." },
+        "build": { "type": "array", "items": { "type": "string" } },
+        "suites": {
+          "type": "array",
+          "description": "Slower suites run only in the Testing stage.",
+          "items": {
+            "type": "object",
+            "required": ["name", "run"],
+            "properties": {
+              "name": { "type": "string" },
+              "run": { "type": "string" },
+              "when": { "type": "array", "items": { "type": "string" }, "description": "Globs; run the suite when the diff touches one. Omit to always run." },
+              "needs": { "enum": ["services"], "description": "Start commands.services first." }
+            }
+          }
+        },
+        "services": {
+          "type": "object",
+          "properties": {
+            "start": { "type": "string" },
+            "stop": { "type": "string" },
+            "health": { "type": "array", "items": { "type": "string" }, "description": "URLs that must answer before suites run." }
+          }
+        }
+      }
+    },
+    "verifyOnStop": {
+      "type": "array",
+      "description": "Stop-hook rules: when uncommitted files match the regex, run the commands; failure blocks the turn.",
+      "items": {
+        "type": "object",
+        "required": ["paths", "run"],
+        "properties": {
+          "paths": { "type": "string", "description": "Regex tested against repo-relative paths with forward slashes." },
+          "run": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "description": "Work touching these goes to dev-critical, never skips test-first, and gets security review.",
+      "properties": {
+        "paths": { "type": "array", "items": { "type": "string" } },
+        "keywords": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "models": {
+      "type": "object",
+      "description": "Model per role. The reviewer must differ from the dev model; if it cannot, the pipeline flags 'same-model review'.",
+      "properties": {
+        "devStandard": { "type": "string", "default": "sonnet" },
+        "devCritical": { "type": "string", "default": "opus" },
+        "reviewerFor": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "default": { "sonnet": "opus", "opus": "sonnet" }
+        }
+      }
+    },
+    "parallel": { "type": "integer", "minimum": 1, "default": 2, "description": "Max tickets in development/review at once. Testing is always one at a time." },
+    "loopLimit": { "type": "integer", "minimum": 1, "default": 3, "description": "Review rejects + test failures before a ticket is blocked." },
+    "autoMerge": { "type": "boolean", "default": true, "description": "Merge after Testing passes. false = stop at an approved, tested PR." },
+    "baseBranch": { "type": "string", "default": "main" },
+    "worktreeDir": { "type": "string", "default": ".claude/worktrees" }
+  }
+}
