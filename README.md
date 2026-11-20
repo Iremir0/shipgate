@@ -100,6 +100,20 @@ One ticket in four was sent back by the reviewer and one in five failed integrat
 
 The full story, including what went wrong and what changed because of it: **[docs/case-study.md](docs/case-study.md)**.
 
+## What shipgate runs and fetches
+
+shipgate has no server, no telemetry and no dependencies. Everything happens on your machine, through tools you
+already authorised:
+
+- **Stop hook** (`hooks/verify-on-stop.mjs`, plain Node): runs `git status` and the commands *you* list under
+  `verifyOnStop` in `.claude/pipeline.json`; writes a fingerprint cache to `.claude/.cache/`.
+- **`/pipeline` and the agents** run `git` (worktrees, branches, push of ticket branches), your project's commands from
+  `.claude/pipeline.json`, and your tracker:
+  - GitHub Issues: the `gh` CLI with your own login (issues, labels, PRs).
+  - Jira: the Atlassian MCP server you connect yourself.
+- **`/pipeline-init`** reads your project files to propose a config and creates GitHub labels with `gh`.
+- Nothing is downloaded at runtime. The JSON schema URL in `pipeline.json` is only used by your editor for autocomplete.
+
 ## FAQ
 
 **Isn't this expensive?** Cheap work stays cheap: copy and small changes go to Sonnet and may skip test-first. Opus is
