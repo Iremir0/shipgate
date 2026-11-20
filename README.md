@@ -72,6 +72,7 @@ written up in **[docs/example-run.md](docs/example-run.md)**.
 ```text
 /plugin marketplace add Iremir0/shipgate
 /plugin install shipgate@shipgate
+/plugin install shipgate-hooks@shipgate   # optional Stop hook
 /pipeline-init            # detects your stack, writes .claude/pipeline.json, sets up the tracker
 /new-ticket add refund requests
 /pipeline                 # work the whole board
@@ -84,7 +85,7 @@ written up in **[docs/example-run.md](docs/example-run.md)**.
 | `/new-ticket <idea>` | Drafts a ticket with testable Given/When/Then criteria, test plan, out-of-scope and security notes; creates it after you approve. |
 | `/pipeline-init` | One-time setup per repo. |
 | `test-author`, `dev-standard`, `dev-critical`, `code-reviewer`, `security-reviewer`, `test-runner` | The agents ([agents/](agents)). |
-| Stop hook | Runs your quick checks on changed files before Claude may end a turn. |
+| `shipgate-hooks` (optional plugin) | A Stop hook that runs your quick checks on changed files before Claude may end a turn. |
 
 Configuration reference: **[docs/configuration.md](docs/configuration.md)** · Trackers: **[docs/trackers.md](docs/trackers.md)**
 
@@ -106,7 +107,8 @@ The full story, including what went wrong and what changed because of it: **[doc
 shipgate has no server, no telemetry and no dependencies. Everything happens on your machine, through tools you
 already authorised:
 
-- **Stop hook** (`hooks/verify-on-stop.mjs`, plain Node): runs `git status` and the commands *you* list under
+- **Stop hook**, only if you install the optional `shipgate-hooks` plugin
+  (`plugins/shipgate-hooks/hooks/verify-on-stop.mjs`, plain Node): runs `git status` and the commands *you* list under
   `verifyOnStop` in `.claude/pipeline.json`; writes a fingerprint cache to `.claude/.cache/`.
 - **`/pipeline` and the agents** run `git` (worktrees, branches, push of ticket branches), your project's commands from
   `.claude/pipeline.json`, and your tracker:

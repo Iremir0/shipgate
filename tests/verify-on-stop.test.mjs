@@ -5,9 +5,9 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
-import { parseStatus, parseStatusZ, matchRules, loadConfig } from '../hooks/lib.mjs'
+import { parseStatus, parseStatusZ, matchRules, loadConfig } from '../plugins/shipgate-hooks/hooks/lib.mjs'
 
-const HOOK = fileURLToPath(new URL('../hooks/verify-on-stop.mjs', import.meta.url))
+const HOOK = fileURLToPath(new URL('../plugins/shipgate-hooks/hooks/verify-on-stop.mjs', import.meta.url))
 
 test('parseStatus handles modified, quoted, untracked and renamed paths', () => {
   assert.deepEqual(parseStatus(' M src/a.ts\n?? "b c.ts"\nR  x.ts -> y.ts\n'), ['src/a.ts', 'b c.ts', 'y.ts'])

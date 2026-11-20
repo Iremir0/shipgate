@@ -1,0 +1,10 @@
+{
+  "name": "shipgate-hooks",
+  "version": "0.1.0",
+  "description": "Optional Stop hook for shipgate: before Claude ends a turn, runs the checks that .claude/pipeline.json maps to the changed files and blocks the turn if one fails.",
+  "author": { "name": "Emir Tüfekci", "url": "https://github.com/Iremir0" },
+  "homepage": "https://github.com/Iremir0/shipgate",
+  "repository": "https://github.com/Iremir0/shipgate",
+  "license": "MIT",
+  "keywords": ["claude-code", "hooks", "verification", "shipgate"]
+}

@@ -55,6 +55,7 @@ claude          # klasöre güven, plugin kurulumunu kabul et
 ```text
 /plugin marketplace add Iremir0/shipgate
 /plugin install shipgate@shipgate
+/plugin install shipgate-hooks@shipgate   # isteğe bağlı Stop hook
 /pipeline-init
 /new-ticket iade talebi ekle
 /pipeline

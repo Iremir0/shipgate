@@ -5,8 +5,15 @@
   "plugins": [
     {
       "name": "shipgate",
-      "source": "./",
+      "source": "./plugins/shipgate",
       "description": "Ticket-to-release pipeline: test-first, locked tests, cross-model review, single testing queue. Jira or GitHub Issues.",
+      "version": "0.1.0",
+      "category": "development"
+    },
+    {
+      "name": "shipgate-hooks",
+      "source": "./plugins/shipgate-hooks",
+      "description": "Optional Stop hook that runs your quick checks on changed files before Claude ends a turn.",
       "version": "0.1.0",
       "category": "development"
     }

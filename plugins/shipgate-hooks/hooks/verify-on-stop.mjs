@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // Stop hook: before Claude ends a turn, run the checks that `.claude/pipeline.json` -> `verifyOnStop`
 // maps to the uncommitted files. A failure blocks the turn and hands the output back to Claude.
 // No config, no matching files, or PIPELINE_SKIP_VERIFY=1 -> exit quietly. Config errors never block.

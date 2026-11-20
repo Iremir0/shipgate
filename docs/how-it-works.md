@@ -69,9 +69,13 @@ PR and merge SHA, release requirements (migrations, env vars, restarts), the tes
 **Ask only real decisions.** The manager does not ask "shall I continue?". It asks only about new modules or data
 models, where data lives, new dependencies, and customer-visible business rules with several reasonable answers.
 
-## The Stop hook
+## The Stop hook (optional `shipgate-hooks` plugin)
 
-Before Claude ends any turn, `hooks/verify-on-stop.mjs` looks at uncommitted files, runs the commands that
+The hook ships as a separate plugin so the core plugin stays free of executable code (the Claude plugin directory
+accepts only Markdown, JSON and images from most publishers). Install it with
+`/plugin install shipgate-hooks@shipgate`.
+
+Before Claude ends any turn, `verify-on-stop.mjs` looks at uncommitted files, runs the commands that
 `verifyOnStop` maps to them, and **blocks the turn** with the failing output if one fails. Results are cached by a
 fingerprint of the relevant files, and an unchanged failure is not re-blocked in a loop. Disable for a session with
 `PIPELINE_SKIP_VERIFY=1`.

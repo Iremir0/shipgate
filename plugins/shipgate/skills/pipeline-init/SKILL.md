@@ -31,4 +31,6 @@ base directory.
 6. **Permissions.** Offer to merge `templates/settings.permissions.json` into `.claude/settings.json` so the pipeline
    does not stop at routine prompts, while force push, hard reset and secret files stay denied. Show the diff first.
 7. **Worktrees.** Make sure `worktreeDir` (default `.claude/worktrees/`) and `.claude/.cache/` are in `.gitignore`.
-8. Finish with: "Create tickets with `/new-ticket`, then run `/pipeline`."
+8. **Stop hook (optional).** Offer the companion plugin `shipgate-hooks` (`/plugin install shipgate-hooks@shipgate`
+   after `/plugin marketplace add Iremir0/shipgate`): it runs the `verifyOnStop` checks before every turn ends.
+9. Finish with: "Create tickets with `/new-ticket`, then run `/pipeline`."
