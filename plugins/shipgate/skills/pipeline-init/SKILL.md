@@ -15,7 +15,9 @@ base directory.
    `commands.suites` for slower suites (integration, e2e) with `when` globs and `needs: "services"` where a server is
    required. Propose `verifyOnStop` rules that map source folders to the quick checks.
 2. **Tracker.** Use `$ARGUMENTS` if given, otherwise ask: GitHub Issues or Jira.
-   - GitHub: confirm `gh auth status` (retry with `env -u GITHUB_TOKEN` on a token error). Create the labels with
+   - GitHub: confirm `gh auth status`. If it, or any later `gh` call, fails with an authentication error (`401`,
+     `Bad credentials`, or a message naming `GITHUB_TOKEN`) while `GITHUB_TOKEN` is set, retry as
+     `env -u GITHUB_TOKEN gh ...` and keep that prefix for the rest of the setup. Create the labels with
      `gh label create <name> --color <hex> --force`:
      (shown with the default `status:` prefix; use `tracker.github.labelPrefix` if the user set another one)
      `status:todo` (ededed), `status:in-progress` (fbca04), `status:code-review` (1d76db), `status:testing` (5319e7),
