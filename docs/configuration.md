@@ -1,0 +1,31 @@
+# Configuration — `.claude/pipeline.json`
+
+`/pipeline-init` writes this file for you. The schema (`schema/pipeline.schema.json`) gives editor autocomplete via
+the `$schema` line. Project rules that are not commands — money representation, ownership checks, naming — belong in
+your `CLAUDE.md`; reviewers treat every invariant there as **Critical**.
+
+| Field | Default | Meaning |
+|---|---|---|
+| `tracker.type` | — | `"github"` or `"jira"` |
+| `tracker.github.repo` | current repo | `owner/name` |
+| `tracker.github.labelPrefix` | `status:` | Prefix of the stage labels |
+| `tracker.jira.site` / `.project` | — | `your-site.atlassian.net`, project key |
+| `tracker.jira.statuses.*` | To Do, In Progress, Code Review, Testing, Waiting for Release, Done | Your column names per stage |
+| `keyPattern` | `#{n}` | How tickets appear in commits/branches (`ABC-{n}` for Jira) |
+| `commands.install` | — | Clean install (`npm ci`) |
+| `commands.quick` | — | Fast checks every dev agent must run green |
+| `commands.build` | — | Build commands run in Testing |
+| `commands.suites[]` | — | `{name, run, when?, needs?}` slower suites; `when` = globs that trigger them; `needs: "services"` starts services first |
+| `commands.services` | — | `{start, stop?, health[]}` how to bring the app up for suites |
+| `verifyOnStop[]` | — | `{paths (regex), run[]}` Stop-hook rules |
+| `risk.paths` / `risk.keywords` | — | What makes a ticket risky |
+| `models.devStandard` / `devCritical` | sonnet / opus | Dev model per route |
+| `models.reviewerFor` | `{sonnet: opus, opus: sonnet}` | Reviewer model for each dev model |
+| `parallel` | 2 | Tickets in development/review at once |
+| `loopLimit` | 3 | Rejects + fails before `blocked` |
+| `autoMerge` | true | `false` stops at an approved, tested PR |
+| `baseBranch` | main | |
+| `worktreeDir` | `.claude/worktrees` | One git worktree per ticket |
+
+See [`templates/pipeline.json`](../templates/pipeline.json) for a full example and the
+[demo repo](https://github.com/Iremir0/claude-code-pipeline-demo/blob/main/.claude/pipeline.json) for a minimal one.
