@@ -52,13 +52,13 @@ The run's job was to find out. The manager session kept a list of every place th
 | Found during the run | Fix |
 |---|---|
 | The first `gh` call failed with `401 Bad credentials`; the retry rule only looked for the text `GITHUB_TOKEN` | Retry on any auth error while `GITHUB_TOKEN` is set (skill and seed script) |
-| One test-runner report came back with **no verdict**; the manager asked again and got PASS | New rule: a report without its verdict line is not a result; send it back, never infer one |
+| One test-runner report came back with **no verdict**; the manager asked again and got PASS | New rule: a report without its verdict line is not a result; send it back, never infer one. Every agent now also says its final message is the finished report, written after clean-up |
 | `listQueue` via GitHub search returned a label from **before** the last move | List by label without `--search`, filter `blocked` locally, confirm every move |
 | `git worktree add -b … origin/main` made ticket branches track `main` | `--no-track`, so a bare `git push` can never hit the base branch |
 | "Write it to the pipeline log" didn't say where the log is | Defined: the ticket's comment thread |
 | A clean merge of `main` could still change code under review | Re-review when the merge touches files the branch changed |
 | A test-runner report said "13 tests" where there were 15 | Numbers in reports must be copied from command output |
-| #3 changes money maths but matched no risk rule, so it got no security review | Not a plugin bug: a demo config gap. Your `risk` rules are as good as you make them |
+| #3 changes money maths but matched no risk rule, so it got no security review | Not a plugin bug: a demo config gap, now closed by adding `subtotal` to the demo's `risk.keywords`. Your `risk` rules are as good as you make them |
 
 The two that mattered most, the missing verdict and the stale board read, are exactly the failure modes the gates
 exist for: the manager refused to treat an empty report as a pass, and re-checked the board instead of acting on it.
