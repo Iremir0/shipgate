@@ -67,7 +67,8 @@ argument-hint: "[#12 | ABC-12]"
    `.github/pull_request_template.md` if present (otherwise `../../templates/pull_request_template.md` relative to this skill's base directory).
    `move(inProgress → review)`; `comment` the PR link.
 2. **code-reviewer** on a **different model** than the dev: `model: models.reviewerFor[<dev model>]` (defaults:
-   sonnet → opus, opus → sonnet). If that model is unavailable and you must fall back to the dev's own model, continue
+   sonnet → opus, opus → sonnet). If `reviewerFor` has no entry for the dev model, use whichever of opus/sonnet the
+   dev did not use. If that model is unavailable and you must fall back to the dev's own model, continue
    but write **"⚠️ same-model review"** in the PR body and the release note. Give: criteria, plan, worktree, branch,
    test commit SHA and locked files, previous-round findings if any.
 3. Risky ticket (see 3) → also run **security-reviewer**. A **Critical** or **High** finding counts as REJECT.

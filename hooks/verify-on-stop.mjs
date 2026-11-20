@@ -6,7 +6,7 @@ import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { loadConfig, matchRules, parseStatus } from './lib.mjs'
+import { loadConfig, matchRules, parseStatusZ } from './lib.mjs'
 
 if (process.env.PIPELINE_SKIP_VERIFY === '1') process.exit(0)
 
@@ -19,9 +19,9 @@ try { input = JSON.parse(readFileSync(0, 'utf8') || '{}') } catch { /* no stdin 
 const config = loadConfig(root)
 if (!config || !Array.isArray(config.verifyOnStop)) process.exit(0)
 
-const status = spawnSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd: root, encoding: 'utf8' })
+const status = spawnSync('git', ['-c', 'core.quotePath=false', 'status', '--porcelain', '-z', '--untracked-files=all'], { cwd: root, encoding: 'utf8' })
 if (status.status !== 0) process.exit(0)
-const files = parseStatus(status.stdout)
+const files = parseStatusZ(status.stdout)
 const commands = matchRules(files, config.verifyOnStop)
 if (commands.length === 0) process.exit(0)
 

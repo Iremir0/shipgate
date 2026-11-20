@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
-import { parseStatus, matchRules, loadConfig } from '../hooks/lib.mjs'
+import { parseStatus, parseStatusZ, matchRules, loadConfig } from '../hooks/lib.mjs'
 
 const HOOK = fileURLToPath(new URL('../hooks/verify-on-stop.mjs', import.meta.url))
 
@@ -77,4 +77,21 @@ test('hook does not re-block an unchanged failure while stop_hook_active', () =>
   const dir = repo({ tracker: { type: 'github' }, commands: {}, verifyOnStop: [{ paths: '^src/', run: ['node -e "process.exit(1)"'] }] })
   assert.match(runHook(dir).stdout, /block/)
   assert.equal(runHook(dir, { stop_hook_active: true }).stdout, '')
+})
+
+test('parseStatusZ handles NUL-separated output with non-ASCII and renames', () => {
+  assert.deepEqual(parseStatusZ(' M src/ü.ts\0R  y.ts\0x.ts\0?? b c.ts\0'), ['src/ü.ts', 'y.ts', 'b c.ts'])
+})
+
+test('matchRules skips rules whose run is not an array of strings', () => {
+  const rules = [{ paths: '^src/', run: 'npm test' }, { paths: '^src/', run: ['ok', 3] }, { paths: '^src/', run: ['good'] }]
+  assert.deepEqual(matchRules(['src/a.ts'], rules), ['good'])
+})
+
+test('hook re-verifies a changed non-ASCII file instead of trusting the cache', () => {
+  const dir = repo({ tracker: { type: 'github' }, commands: {}, verifyOnStop: [{ paths: '^src/', run: ['node -e "process.exit(require(\'fs\').readFileSync(\'src/ü.ts\',\'utf8\')===\'bad\'?1:0)"'] }] })
+  writeFileSync(join(dir, 'src', 'ü.ts'), 'good')
+  assert.equal(runHook(dir).stdout, '')
+  writeFileSync(join(dir, 'src', 'ü.ts'), 'bad')
+  assert.match(runHook(dir).stdout, /block/)
 })

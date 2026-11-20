@@ -64,7 +64,7 @@ claude          # trust the folder, accept the plugin install
 ```
 
 Watch the issues move across `status:*` labels, with plans, review decisions and release notes as comments and one
-merged PR per issue. A real run is recorded in **[docs/example-run.md](docs/example-run.md)**.
+merged PR per issue.
 
 ## Use it in your repo
 

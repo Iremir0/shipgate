@@ -17,6 +17,7 @@ base directory.
 2. **Tracker.** Use `$ARGUMENTS` if given, otherwise ask: GitHub Issues or Jira.
    - GitHub: confirm `gh auth status` (retry with `env -u GITHUB_TOKEN` on a token error). Create the labels with
      `gh label create <name> --color <hex> --force`:
+     (shown with the default `status:` prefix; use `tracker.github.labelPrefix` if the user set another one)
      `status:todo` (ededed), `status:in-progress` (fbca04), `status:code-review` (1d76db), `status:testing` (5319e7),
      `status:ready-for-release` (0e8a16), `blocked` (b60205), `priority:high` (d93f0b).
    - Jira: ask for site and project key; check the Atlassian MCP is connected; read the project's statuses and map them

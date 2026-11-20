@@ -29,3 +29,11 @@ your `CLAUDE.md`; reviewers treat every invariant there as **Critical**.
 
 See [`templates/pipeline.json`](../templates/pipeline.json) for a full example and the
 [demo repo](https://github.com/Iremir0/shipgate-demo/blob/main/.claude/pipeline.json) for a minimal one.
+
+## Permissions and branch protection
+
+`/pipeline-init` offers [`templates/settings.permissions.json`](../templates/settings.permissions.json): routine git, `gh issue`,
+`gh pr` and `npm run` commands are allowed so the pipeline doesn't stop at every prompt; other `git push` and `gh`
+calls ask first; force pushes, `+refspec` pushes, hard resets, `gh repo delete`, `--admin` and `gh api` are denied.
+Permission patterns are a convenience, not a security boundary: **turn on branch protection for your base branch**
+(require a PR, block force pushes) so the rule "no direct push to main" is enforced by GitHub, not only by prompts.

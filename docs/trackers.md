@@ -24,4 +24,5 @@ Stages are workflow statuses on a kanban board. Setup:
 2. Make sure your workflow has a status for every stage (names are configurable in `tracker.jira.statuses`).
 3. `/pipeline-init jira` asks for the site and project key and checks the statuses.
 
-Jira is how the pipeline runs in production (see the [case study](case-study.md)).
+Jira is how the pipeline runs in production (see the [case study](case-study.md)). The public demo uses GitHub Issues;
+the Jira path of this plugin version has not yet been run end-to-end on a demo board.

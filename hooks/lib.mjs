@@ -10,14 +10,32 @@ export function parseStatus(porcelain) {
     .map((line) => line.slice(3).split(' -> ').pop().replace(/^"|"$/g, '').replace(/\\/g, '/'))
 }
 
-/** Commands from every rule whose regex matches at least one file, deduped, in rule order. */
+/**
+ * Parse `git -c core.quotePath=false status --porcelain -z` output. Entries are NUL-separated and never quoted, so
+ * non-ASCII names survive. A rename or copy (`R`/`C`) is followed by an extra entry with the old path, which is skipped.
+ */
+export function parseStatusZ(output) {
+  const parts = output.split('\u0000')
+  const files = []
+  for (let i = 0; i < parts.length; i++) {
+    const entry = parts[i]
+    if (entry.length < 4) continue
+    files.push(entry.slice(3).replace(/\\/g, '/'))
+    if (entry[0] === 'R' || entry[0] === 'C') i++
+  }
+  return files
+}
+
+/** Commands from every valid rule whose regex matches at least one file, deduped, in rule order. */
 export function matchRules(files, rules = []) {
   const out = []
-  for (const rule of rules) {
+  for (const rule of Array.isArray(rules) ? rules : []) {
+    if (!rule || typeof rule.paths !== 'string') continue
+    if (!Array.isArray(rule.run) || !rule.run.every((c) => typeof c === 'string')) continue
     let re
     try { re = new RegExp(rule.paths) } catch { continue }
     if (!files.some((f) => re.test(f))) continue
-    for (const cmd of rule.run ?? []) if (!out.includes(cmd)) out.push(cmd)
+    for (const cmd of rule.run) if (!out.includes(cmd)) out.push(cmd)
   }
   return out
 }

@@ -16,8 +16,11 @@ Do not change code.
 Checklist:
 1. **Acceptance:** is every criterion met? Evidence: the test that proves it (`file:test name`) and the code
    (`file:line`). No evidence → ❌.
-2. **Test integrity:** `git -C <worktree> diff <test-sha>..HEAD -- <locked files>` must be empty. A locked test that
-   was changed, deleted, given `skip`/`only`, or had its expectation loosened → automatic REJECT.
+2. **Test integrity:** the branch's own commits after the test commit must not touch locked files:
+   `git -C <worktree> log --no-merges --format=%h <test-sha>..HEAD -- <locked files>` must be empty. (Merges of the
+   base branch are excluded so upstream changes don't cause a false reject; if a merge commit resolved a conflict in
+   a locked file, inspect that resolution with `git show <merge> -- <file>`.) A locked test that was changed, deleted,
+   given `skip`/`only`, or had its expectation loosened by the branch → automatic REJECT.
 3. **Correctness:** wrong result on a real input, crash, race condition, missing error path. Every finding comes with
    a concrete scenario.
 4. **Project rules:** the invariants in the repo's `CLAUDE.md`.
