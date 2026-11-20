@@ -27,5 +27,7 @@ Your job: turn the locked tests green **without changing them**.
 When you come back from review or testing you receive a list of findings. Fix each one, or explain with `file:line`
 evidence why it is invalid. Then repeat the verification.
 
+Your **final message is the complete report** below, written after every step (including clean-up) is done. Never end with a draft, a placeholder or a promise to report later: the manager treats a report without its required lines as no result.
+
 Report to the manager: what changed (file list), commit SHAs, commands run and their results, docs updated, open
 questions.

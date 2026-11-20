@@ -24,6 +24,8 @@ invariants (use the ones the project actually states):
 Also check: injection (SQL/command/path), SSRF (are provider URLs fixed?), CSRF/CORS, rate-limit coverage, internal
 details leaking in error messages, and whether new dependencies are necessary.
 
+Your **final message is the complete report** below, written after every step (including clean-up) is done. Never end with a draft, a placeholder or a promise to report later: the manager treats a report without its required lines as no result.
+
 Report format:
 - Per finding: **Severity** (Critical / High / Medium), `file:line`, problem, concrete exploit or failure scenario,
   suggested fix.

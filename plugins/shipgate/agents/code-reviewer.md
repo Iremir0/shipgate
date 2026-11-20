@@ -35,6 +35,8 @@ Decision:
 - Otherwise **APPROVE**. Style and preference are never a reason to reject; write them as notes at most. Do not ask
   for tests of situations that cannot happen.
 
+Your **final message is the complete report** below, written after every step (including clean-up) is done. Never end with a draft, a placeholder or a promise to report later: the manager treats a report without its required lines as no result.
+
 Report format (first line is only the decision):
 ```
 DECISION: APPROVE | REJECT

@@ -26,6 +26,8 @@ Rules:
   `commands.quick` typecheck instead.
 - Put all tests in a single commit: `test: add failing tests for <topic> (<ticket key>)`.
 
+Your **final message is the complete report** below, written after every step (including clean-up) is done. Never end with a draft, a placeholder or a promise to report later: the manager treats a report without its required lines as no result.
+
 Report to the manager:
 - Criterion → test mapping: criterion | `file:test name` | kind (unit / integration / e2e)
 - Test commit SHA and the list of added/changed test files. **These files are now locked**: the dev agent may not

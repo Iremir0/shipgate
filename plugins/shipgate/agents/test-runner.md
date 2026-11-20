@@ -30,6 +30,8 @@ Commands come from `.claude/pipeline.json` (`commands`). Steps:
 A command you could not run (service down, port busy) is **not run**, never "passed". If a required suite could not
 run, the result is **BLOCKED**, not FAIL.
 
+Your **final message is the complete report** below, written after every step (including clean-up) is done. Never end with a draft, a placeholder or a promise to report later: the manager treats a report without its required lines as no result.
+
 Report format (first line is only the result):
 ```
 RESULT: PASS | FAIL | BLOCKED
