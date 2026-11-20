@@ -28,4 +28,4 @@ your `CLAUDE.md`; reviewers treat every invariant there as **Critical**.
 | `worktreeDir` | `.claude/worktrees` | One git worktree per ticket |
 
 See [`templates/pipeline.json`](../templates/pipeline.json) for a full example and the
-[demo repo](https://github.com/Iremir0/claude-code-pipeline-demo/blob/main/.claude/pipeline.json) for a minimal one.
+[demo repo](https://github.com/Iremir0/shipgate-demo/blob/main/.claude/pipeline.json) for a minimal one.

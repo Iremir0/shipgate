@@ -10,7 +10,7 @@ argument-hint: "[#12 | ABC-12]"
 1. Read `.claude/pipeline.json`. Missing → stop and tell the user to run `/pipeline-init`. Read the repo's `CLAUDE.md`.
 2. Read `trackers.md` (next to this file). Every tracker action below is one of its operations: `listQueue`,
    `readTicket`, `move`, `comment`, `block`. Run its preflight once.
-3. Agents are called with the `Agent` tool as `subagent_type: "claude-code-pipeline:<agent>"`.
+3. Agents are called with the `Agent` tool as `subagent_type: "shipgate:<agent>"`.
 4. `gh` commands that fail with a `GITHUB_TOKEN` error: retry as `env -u GITHUB_TOKEN gh ...`.
 
 ## Ground rules
@@ -54,7 +54,7 @@ argument-hint: "[#12 | ABC-12]"
    agent `<name>` (<model>)".
 2. **test-author** (unless skipped): give the ticket, criteria, plan, worktree path. Its report must contain the test
    commit SHA, the locked test files and red evidence. No red evidence → send it back.
-3. **Dev agent:** `Agent` with `subagent_type: claude-code-pipeline:dev-standard|dev-critical`, `name: dev-<key>` and
+3. **Dev agent:** `Agent` with `subagent_type: shipgate:dev-standard|dev-critical`, `name: dev-<key>` and
    the model above. Give: ticket, criteria, plan, test-author report, worktree path. Record the agent name/id in the
    pipeline log: rework goes back to **the same agent** via `SendMessage`. If it is unreachable (new session), start a
    new agent of the same type and give it the previous diff and the full findings history.

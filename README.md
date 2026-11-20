@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="claude-code-pipeline: To Do → In Progress → Code Review → Testing → Ready for Release" width="100%">
+  <img src="assets/banner.svg" alt="shipgate: To Do → In Progress → Code Review → Testing → Ready for Release" width="100%">
 </p>
 
 <p align="center">
@@ -7,13 +7,13 @@
   <img alt="version" src="https://img.shields.io/badge/version-0.1.0-2a1d16">
   <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude%20Code-plugin-d97757">
   <img alt="trackers" src="https://img.shields.io/badge/trackers-GitHub%20Issues%20%7C%20Jira-2a1d16">
-  <a href="https://github.com/Iremir0/claude-code-pipeline/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Iremir0/claude-code-pipeline/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/Iremir0/shipgate/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Iremir0/shipgate/actions/workflows/ci.yml/badge.svg"></a>
 </p>
 
 <p align="center"><b>A gated, multi-agent delivery pipeline for <a href="https://docs.claude.com/en/docs/claude-code">Claude Code</a>.</b><br>
 You write tickets and release. Agents write tests, code and reviews. Gates decide what ships.</p>
 
-<p align="center"><a href="README.tr.md">Türkçe</a> · <a href="docs/how-it-works.md">How it works</a> · <a href="https://github.com/Iremir0/claude-code-pipeline-demo">Demo repo</a> · <a href="docs/case-study.md">Case study</a></p>
+<p align="center"><a href="README.tr.md">Türkçe</a> · <a href="docs/how-it-works.md">How it works</a> · <a href="https://github.com/Iremir0/shipgate-demo">Demo repo</a> · <a href="docs/case-study.md">Case study</a></p>
 
 ---
 
@@ -53,11 +53,11 @@ More detail and the reasoning behind each rule: **[docs/how-it-works.md](docs/ho
 
 ## Try it in 5 minutes
 
-The **[demo repo](https://github.com/Iremir0/claude-code-pipeline-demo)** is a tiny cart calculator with three seeded
+The **[demo repo](https://github.com/Iremir0/shipgate-demo)** is a tiny cart calculator with three seeded
 issues: a copy change, a risky money feature and a planted bug.
 
 ```bash
-gh repo create my-pipeline-demo --template Iremir0/claude-code-pipeline-demo --private --clone
+gh repo create my-pipeline-demo --template Iremir0/shipgate-demo --private --clone
 cd my-pipeline-demo && npm ci && npm run seed
 claude          # trust the folder, accept the plugin install
 > /pipeline
@@ -69,8 +69,8 @@ merged PR per issue. A real run is recorded in **[docs/example-run.md](docs/exam
 ## Use it in your repo
 
 ```text
-/plugin marketplace add Iremir0/claude-code-pipeline
-/plugin install claude-code-pipeline@claude-code-pipeline
+/plugin marketplace add Iremir0/shipgate
+/plugin install shipgate@shipgate
 /pipeline-init            # detects your stack, writes .claude/pipeline.json, sets up the tracker
 /new-ticket add refund requests
 /pipeline                 # work the whole board

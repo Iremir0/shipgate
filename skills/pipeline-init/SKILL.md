@@ -1,6 +1,6 @@
 ---
 name: pipeline-init
-description: Sets up claude-code-pipeline in the current repo - detects the stack, writes .claude/pipeline.json, creates GitHub status labels or checks Jira statuses, and suggests CLAUDE.md invariants and permissions. Run once per repo before /pipeline.
+description: Sets up shipgate in the current repo - detects the stack, writes .claude/pipeline.json, creates GitHub status labels or checks Jira statuses, and suggests CLAUDE.md invariants and permissions. Run once per repo before /pipeline.
 argument-hint: "[github | jira]"
 ---
 

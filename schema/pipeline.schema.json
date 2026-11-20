@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/Iremir0/claude-code-pipeline/main/schema/pipeline.schema.json",
-  "title": "claude-code-pipeline configuration (.claude/pipeline.json)",
+  "$id": "https://raw.githubusercontent.com/Iremir0/shipgate/main/schema/pipeline.schema.json",
+  "title": "shipgate configuration (.claude/pipeline.json)",
   "type": "object",
   "required": ["tracker", "commands"],
   "additionalProperties": false,

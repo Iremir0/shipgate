@@ -29,7 +29,7 @@ export function loadConfig(root, warn = (m) => process.stderr.write(`${m}\n`)) {
   try {
     return JSON.parse(readFileSync(file, 'utf8'))
   } catch (err) {
-    warn(`[claude-code-pipeline] ignoring ${file}: ${err.message}`)
+    warn(`[shipgate] ignoring ${file}: ${err.message}`)
     return null
   }
 }

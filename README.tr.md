@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="claude-code-pipeline" width="100%">
+  <img src="assets/banner.svg" alt="shipgate" width="100%">
 </p>
 
 <p align="center"><b>Claude Code için kapılı (gated), çok agent'lı teslimat hattı.</b><br>
 Sen kart yazar ve release edersin. Agent'lar test, kod ve inceleme yazar. Neyin çıkacağına kapılar karar verir.</p>
 
-<p align="center"><a href="README.md">English</a> · <a href="docs/how-it-works.md">Nasıl çalışır</a> · <a href="https://github.com/Iremir0/claude-code-pipeline-demo">Demo repo</a> · <a href="docs/case-study.md">Vaka çalışması</a></p>
+<p align="center"><a href="README.md">English</a> · <a href="docs/how-it-works.md">Nasıl çalışır</a> · <a href="https://github.com/Iremir0/shipgate-demo">Demo repo</a> · <a href="docs/case-study.md">Vaka çalışması</a></p>
 
 ---
 
@@ -44,7 +44,7 @@ flowchart LR
 ## 5 dakikada dene
 
 ```bash
-gh repo create my-pipeline-demo --template Iremir0/claude-code-pipeline-demo --private --clone
+gh repo create my-pipeline-demo --template Iremir0/shipgate-demo --private --clone
 cd my-pipeline-demo && npm ci && npm run seed
 claude          # klasöre güven, plugin kurulumunu kabul et
 > /pipeline
@@ -53,8 +53,8 @@ claude          # klasöre güven, plugin kurulumunu kabul et
 ## Kendi repo'nda kullan
 
 ```text
-/plugin marketplace add Iremir0/claude-code-pipeline
-/plugin install claude-code-pipeline@claude-code-pipeline
+/plugin marketplace add Iremir0/shipgate
+/plugin install shipgate@shipgate
 /pipeline-init
 /new-ticket iade talebi ekle
 /pipeline
